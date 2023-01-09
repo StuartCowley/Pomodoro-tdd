@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import TimerButton from "../TimerButton/TimerButton"
 import "./timer.css"
 
 const Timer = () => {
@@ -21,7 +22,13 @@ const Timer = () => {
     console.log("Resetting timer.")
   }
 
-  return <div className="timer__container" data-testid="test-timer" />
+  return (
+    <div className="timer__container" data-testid="timerContainer">
+      <TimerButton buttonAction={startTimer} buttonValue="Start" />
+      <TimerButton buttonAction={stopTimer} buttonValue="Stop" />
+      <TimerButton buttonAction={resetTimer} buttonValue="Reset" />
+    </div>
+  )
 }
 
 export default Timer
