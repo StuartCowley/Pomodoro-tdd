@@ -1,4 +1,6 @@
 .timer__container {
+  display: flex;
+  align-items: flex-end;
   background-color: var(--timer-background-color);
   border: var(--timer-border);
   height: var(--timer-height);

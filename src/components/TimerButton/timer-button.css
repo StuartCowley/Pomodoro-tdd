@@ -1,0 +1,15 @@
+.button__container {
+  flex: 1 1 auto;
+  text-align: center;
+  margin: 12px 20px;
+  border: var(--button-border);
+  font-size: var(--button-text-size);
+  max-height: 64px;
+  background-color: var(--button-background-color);
+  color: white;
+  padding: 12px;
+}
+  
+.button__container:hover {
+  cursor: pointer;
+}
