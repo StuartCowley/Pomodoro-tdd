@@ -5,9 +5,11 @@ import Timer from "../components/Timer/Timer"
 it("Renders single heading with correct text", () => {
   render(<Timer />)
 
-  expect(screen.getByTestId("test-timer")).toBeInTheDocument()
+  expect(screen.getByTestId("timerContainer")).toBeInTheDocument()
 })
 
 it("Should render instances of the TimerButton component", () => {
-  expect(screen.getAllByTestId("test-timer-button")).toHaveLength(3)
+  render(<Timer />)
+
+  expect(screen.getAllByTestId("timerButtonContainer")).toHaveLength(3)
 })

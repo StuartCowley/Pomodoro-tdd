@@ -14,6 +14,6 @@ describe("App component", () => {
   it("Renders the timer component", () => {
     render(<App />)
 
-    expect(screen.getByTestId("test-timer")).toBeInTheDocument()
+    expect(screen.getByTestId("timerContainer")).toBeInTheDocument()
   })
 })

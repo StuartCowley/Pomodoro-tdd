@@ -16,6 +16,7 @@ describe("TimerButton", () => {
       />,
     )
 
-    expect(screen.getByTestId("test-timer-button")).toBeInTheDocument()
+    expect(screen.getByTestId("timerButtonContainer")).toBeInTheDocument()
+    expect(screen.getByText(validProps.buttonValue)).toBeInTheDocument()
   })
 })
