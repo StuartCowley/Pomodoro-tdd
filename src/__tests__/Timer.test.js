@@ -7,3 +7,7 @@ it("Renders single heading with correct text", () => {
 
   expect(screen.getByTestId("test-timer")).toBeInTheDocument()
 })
+
+it("Should render instances of the TimerButton component", () => {
+  expect(screen.getAllByTestId("test-timer-button")).toHaveLength(3)
+})
