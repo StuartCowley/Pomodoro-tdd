@@ -1,7 +1,6 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import App from "../components/App/App"
-import Timer from "../components/Timer/Timer"
 
 describe("App component", () => {
   it("Renders single heading with correct text", () => {
