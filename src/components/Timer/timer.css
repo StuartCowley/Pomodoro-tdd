@@ -1,8 +1,22 @@
 .timer__container {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
   background-color: var(--timer-background-color);
   border: var(--timer-border);
   height: var(--timer-height);
   width: var(--timer-width);
+}
+
+.timer__button-wrap {
+  display: flex;
+  align-items: flex-end;
+  background-color: var(--timer-background-color);
+}
+
+.timer__time-display {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  font-size: 10rem;
 }
