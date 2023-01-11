@@ -7,3 +7,5 @@ export const runOnlyPendingTimers = async () =>
   jest.runOnlyPendingTimers() && (await tick())
 
 export const runAllTimers = async () => jest.runAllTimers() && (await tick())
+
+export const delay = (ms) => new Promise((res) => setTimeout(res, ms))

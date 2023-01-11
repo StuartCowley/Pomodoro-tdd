@@ -28,24 +28,28 @@ const Timer = () => {
         let id = setInterval(tick, delay)
         return () => clearInterval(id)
       }
-    }, [timerData.isOn])
+    }, [timerData.isOn, timerData.minutes, timerData.seconds])
   }
 
   useInterval(() => {
-    if (timerData.seconds > 0) {
-      setTimerData({ ...timerData, seconds: timerData.seconds - 1 })
-    }
     if (timerData.seconds === 0) {
+      console.log("seconds === 0")
       if (timerData.minutes === 0) {
+        console.log("seconds === 0 && minutes === 0")
         setTimerData({ ...timerData, isOn: false })
       } else {
+        console.log("x minutes & 0 seconds")
         setTimerData({
           ...timerData,
           minutes: timerData.minutes - 1,
           seconds: 59,
         })
       }
+    } else {
+      setTimerData({ ...timerData, seconds: timerData.seconds - 1 })
+      console.log("seconds > 0")
     }
+    console.log("callback", JSON.stringify(timerData))
   }, 1000)
 
   const displayedTime = `${
