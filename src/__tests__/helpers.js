@@ -1,11 +1,9 @@
-const tick = () => new Promise((res) => setImmediate(res))
+import { act } from "@testing-library/react"
 
-export const advanceTimersByTime = async (time) =>
-  jest.advanceTimersByTime(time) && (await tick())
-
-export const runOnlyPendingTimers = async () =>
-  jest.runOnlyPendingTimers() && (await tick())
-
-export const runAllTimers = async () => jest.runAllTimers() && (await tick())
-
-export const delay = (ms) => new Promise((res) => setTimeout(res, ms))
+export const advanceJestTimersByTime = (increment, iterations) => {
+  for (let i = 0; i < iterations; i++) {
+    act(() => {
+      jest.advanceTimersByTime(increment)
+    })
+  }
+}
