@@ -25,21 +25,6 @@ describe("Timer component", () => {
     expect(screen.getAllByTestId("timerButtonContainer")).toHaveLength(3)
   })
 
-  xit("Assert click handler is called clicking each of the buttons", () => {
-    render(<Timer />)
-
-    const startTimerButton = screen.getByText("Start")
-    const stopTimerButton = screen.getByText("Stop")
-    const resetTimerButton = screen.getByText("Reset")
-    fireEvent.click(startTimerButton)
-    fireEvent.click(stopTimerButton)
-    fireEvent.click(resetTimerButton)
-
-    expect(startTimerFunction).toHaveBeenCalledTimes(1)
-    expect(stopTimerFunction).toHaveBeenCalledTimes(1)
-    expect(resetTimerFunction).toHaveBeenCalledTimes(1)
-  })
-
   it("Assert correct initial time is displayed", () => {
     render(<Timer />)
     const timeDisplayContainer = screen.getByTestId("timeDisplayContainer")
@@ -64,8 +49,7 @@ describe("Timer component", () => {
     await waitFor(() => expect(screen.getByText("24:00")).toBeInTheDocument())
   })
 
-  xit("Assert multiple clicks of start timer have no effect on running timer", () => {
-    jest.useFakeTimers()
+  it("Assert multiple clicks of start timer have no effect on running timer", () => {
     render(<Timer />)
     const initialTime = screen.getByText("25:00")
     expect(initialTime).toBeInTheDocument()
@@ -73,17 +57,15 @@ describe("Timer component", () => {
     const startTimerButton = screen.getByText("Start")
     fireEvent.click(startTimerButton)
 
-    jest.advanceTimersByTime(30000)
-    const updatedTime = screen.getByText("24:30")
-    expect(updatedTime).toBeInTheDocument()
+    advanceJestTimersByTime(1000, 30)
+    expect(screen.getByText("24:30")).toBeInTheDocument()
 
     fireEvent.click(startTimerButton)
-    jest.advanceTimersByTime(30000)
-    expect(updatedTime).toBeInTheDocument()
+    advanceJestTimersByTime(1000, 10)
+    expect(screen.getByText("24:20")).toBeInTheDocument()
   })
 
-  xit("Assert stop button freezes time", () => {
-    jest.useFakeTimers()
+  it("Assert stop button freezes time", () => {
     render(<Timer />)
     const initialTime = screen.getByText("25:00")
     expect(initialTime).toBeInTheDocument()
@@ -91,16 +73,18 @@ describe("Timer component", () => {
     const startTimerButton = screen.getByText("Start")
     fireEvent.click(startTimerButton)
 
-    jest.advanceTimersByTime(30000)
+    advanceJestTimersByTime(1000, 30)
+    const stopTimerButton = screen.getByText("Stop")
+    fireEvent.click(stopTimerButton)
+
     const stoppedTime = screen.getByText("24:30")
     expect(stoppedTime).toBeInTheDocument()
 
-    jest.advanceTimersByTime(30000)
+    advanceJestTimersByTime(1000, 30)
     expect(stoppedTime).toBeInTheDocument()
   })
 
-  xit("Assert timer stops at 00:00", () => {
-    jest.useFakeTimers()
+  it("Assert timer stops at 00:00", () => {
     render(<Timer />)
     const initialTime = screen.getByText("25:00")
     expect(initialTime).toBeInTheDocument()
@@ -108,12 +92,13 @@ describe("Timer component", () => {
     const startTimerButton = screen.getByText("Start")
     fireEvent.click(startTimerButton)
 
-    jest.advanceTimersByTime(1000 * 60 * 26)
+    advanceJestTimersByTime(1000, 60 * 26)
+
     const updatedTime = screen.getByText("00:00")
     expect(updatedTime).toBeInTheDocument()
   })
 
-  xit("Assert reset button stops timer and resets to initial time", async () => {
+  it("Assert reset button stops timer and resets to initial time", async () => {
     render(<Timer />)
     const initialTime = screen.getByText("25:00")
     const startTimerButton = screen.getByText("Start")
@@ -122,9 +107,8 @@ describe("Timer component", () => {
     expect(initialTime).toBeInTheDocument()
 
     fireEvent.click(startTimerButton)
-    act(() => {
-      advanceTimersByTime(5000)
-    })
+    advanceJestTimersByTime(1000, 5)
+
     const updatedTime = await screen.findByText("24:55")
     expect(updatedTime).toBeInTheDocument()
 
@@ -132,9 +116,7 @@ describe("Timer component", () => {
     const resettedTime = screen.getByText("25:00")
     expect(resettedTime).toBeInTheDocument()
 
-    act(() => {
-      advanceTimersByTime(1000)
-    })
+    advanceJestTimersByTime(1000, 20)
     expect(resettedTime).toBeInTheDocument()
   })
 })
