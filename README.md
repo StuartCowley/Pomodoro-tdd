@@ -49,6 +49,11 @@ Launch the test runner in the interactive watch mode:
 npm test
 ```
 
+Run test coverage report:
+```
+test:coverage
+```
+
 Run eslint and output errors to terminal only:
 
 ```
