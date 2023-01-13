@@ -2,6 +2,26 @@ import React, { useEffect, useRef, useState } from "react"
 import TimerButton from "../TimerButton/TimerButton"
 import "./timer.css"
 
+function useInterval(callback, delay, timerData) {
+  const savedCallback = useRef()
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current()
+    }
+    if (timerData.isOn) {
+      let id = setInterval(tick, delay)
+      return () => clearInterval(id)
+    }
+  }, [timerData])
+}
+
 const Timer = () => {
   const initialState = {
     minutes: 25,
@@ -10,43 +30,25 @@ const Timer = () => {
   }
   const [timerData, setTimerData] = useState(initialState)
 
-  // custom hook
-  function useInterval(callback, delay) {
-    const savedCallback = useRef()
-
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback
-    }, [callback])
-
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current()
-      }
-      if (timerData.isOn) {
-        let id = setInterval(tick, delay)
-        return () => clearInterval(id)
-      }
-    }, [timerData.isOn])
-  }
-
-  useInterval(() => {
-    if (timerData.seconds > 0) {
-      setTimerData({ ...timerData, seconds: timerData.seconds - 1 })
-    }
-    if (timerData.seconds === 0) {
-      if (timerData.minutes === 0) {
-        setTimerData({ ...timerData, isOn: false })
+  useInterval(
+    () => {
+      if (timerData.seconds === 0) {
+        if (timerData.minutes === 0) {
+          setTimerData({ ...timerData, isOn: false })
+        } else {
+          setTimerData({
+            ...timerData,
+            minutes: timerData.minutes - 1,
+            seconds: 59,
+          })
+        }
       } else {
-        setTimerData({
-          ...timerData,
-          minutes: timerData.minutes - 1,
-          seconds: 59,
-        })
+        setTimerData({ ...timerData, seconds: timerData.seconds - 1 })
       }
-    }
-  }, 1000)
+    },
+    1000,
+    timerData,
+  )
 
   const displayedTime = `${
     timerData.minutes >= 10 ? timerData.minutes : `0${timerData.minutes}`
