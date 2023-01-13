@@ -1,7 +1,7 @@
 import React from "react"
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import Timer from "../components/Timer/Timer"
-import { advanceTimersByTime, delay } from "./helpers"
+import { advanceJestTimersByTime } from "./helpers"
 
 beforeEach(() => {
   jest.mock().resetAllMocks
@@ -51,18 +51,17 @@ describe("Timer component", () => {
 
   it("Assert timer counts down by correct interval when starting timer", async () => {
     render(<Timer />)
+
     const initialTime = screen.getByText("25:00")
     const startTimerButton = screen.getByText("Start")
 
     expect(initialTime).toBeInTheDocument()
 
     fireEvent.click(startTimerButton)
-    act(() => {
-      // jest.runOnlyPendingTimers()
-      jest.advanceTimersByTime(4000)
-    })
 
-    await waitFor(() => expect(screen.getByText("24:58")).toBeInTheDocument())
+    advanceJestTimersByTime(1000, 60)
+
+    await waitFor(() => expect(screen.getByText("24:00")).toBeInTheDocument())
   })
 
   xit("Assert multiple clicks of start timer have no effect on running timer", () => {
